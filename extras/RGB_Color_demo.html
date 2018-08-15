@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+    	<!--Title-->
+      <title>RGB Color demo - Mr. Robotics</title>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+      <!-- Setting modal structure -->
+      <div id="modal-ip" class="modal">
+        <div class="modal-content">
+          <h4 class="center-align">Robby Connection</h4>
+          <div class="input-field">
+            <input id="newIP" type="text" class="validate" value="000.000.00.000">
+            <label for="newIP">Local IP address</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="modal-action modal-close waves-effect waves-green btn-flat" onclick="App.updateIP(App.getIP())">Save</a>
+        </div>
+      </div>
+
+      <!-- Colormap -->
+      <div class="section white valign-wrapper">
+        <canvas width="1530" height="50" id="colormap" style="width:100%;height:50px;"></canvas>
+      </div>
+
+      <!-- Main page -->
+      <main style="min-height:calc(100vh - 150px)">
+        <div class="section">
+          <h1 class="center-align light white-text" id="color-label">...</h1>
+          <p class="center-align light white-text" id="ip-label">...</p>
+        </div>
+
+        <div class="section">
+          <p class="center-align">
+          	<a class="btn-floating btn-large waves-effect waves-light white center-align" onclick="App.upward()"><i class="material-icons" id="ColorId1">arrow_upward</i></a>
+          </p>
+          <p class="center-align">
+            <a class="btn-floating btn-large waves-effect waves-light white center-align" onclick="App.back()"><i class="material-icons" id="ColorId2">arrow_back</i></a>
+            &nbsp;&nbsp;
+            <a class="btn-floating btn-large waves-effect waves-light white center-align modal-trigger" href="#modal-ip"><i class="material-icons" id="ColorId3">all_inclusive</i></a>
+            &nbsp;&nbsp;
+            <a class="btn-floating btn-large waves-effect waves-light white center-align" onclick="App.forward()"><i class="material-icons" id="ColorId4">arrow_forward</i></a>
+          </p>
+          <p class="center-align">
+          	<a class="btn-floating btn-large waves-effect waves-light white center-align" onclick="App.downward()"><i class="material-icons" id="ColorId5">arrow_downward</i></a>
+          </p>
+        </div>
+
+        <!--<div class="section">
+          <h1 class="center-align light white-text"><span id="SONAR-data">...</span> cm</h1>
+        </div>-->
+      </main>
+
+      <!-- Footer -->
+      <footer style="height:42px">
+	      <div class="footer-copyright">
+	        <p class="center-align light white-text">RGB Color demo</br>&copy; 2018 Mr. Robotics</p>
+	      </div>
+      </footer>
+      
+      <!--Custom script-->
+      <script type="text/javascript">
+        var App = App || {};
+
+        App.getIP = function() {
+          return document.getElementById('newIP').value;
+        }
+
+        App.upward = function() {
+        	Materialize.toast('Forward', 1000, 'rounded');
+        }
+
+        App.back = function() {
+        	Materialize.toast('Left', 1000, 'rounded');
+        }
+
+        App.forward = function() {
+        	Materialize.toast('Right', 1000, 'rounded');
+        }
+
+        App.downward = function() {
+        	Materialize.toast('Backward', 1000, 'rounded');
+        }
+
+        App.updateColor = function(r,g,b) {
+          var rgb = 'rgb('+r+','+g+','+b+')';
+          document.body.style.backgroundColor = rgb;
+          document.getElementById("color-label").innerHTML = rgb;
+          document.getElementById("ColorId1").style.color = rgb;
+          document.getElementById("ColorId2").style.color = rgb;
+          document.getElementById("ColorId3").style.color = rgb;
+          document.getElementById("ColorId4").style.color = rgb;
+          document.getElementById("ColorId5").style.color = rgb;
+          $.get("http://"+App.getIP(), {"R":r, "G":g, "B":b});
+          Materialize.toast('Color updated', 1000, 'rounded');
+          //document.getElementById("SONAR-data").innerHTML = r;
+        }
+
+        App.updateIP = function(address) {
+          document.getElementById('newIP').value = address;
+          document.getElementById("ip-label").innerHTML = address;
+          Materialize.toast('IP address updated', 1000, 'rounded');
+        }
+
+        window.onload = function() {
+          App.updateColor(255,0,0);
+          App.updateIP("192.168.43.103");
+          $(document).ready(function(){$('.modal').modal();});
+        }
+
+        var pickercolor  = document.getElementById('colormap');
+        var ctx = pickercolor.getContext('2d');
+
+        for(var i = 0; i <= 255; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb(255,'+i+',0)';
+          ctx.fillRect(i,0,1,50);
+        }
+
+        for(var i = 0; i <= 255; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb('+(255-i)+',255,0)';
+          ctx.fillRect((255+i),0,1,50);
+        }
+
+        for(var i = 0; i <= 255; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb(0,255,'+i+')';
+          ctx.fillRect((510+i),0,1,50);
+        }
+
+        for(var i = 0; i <= 255; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb(0,'+(255-i)+',255)';
+          ctx.fillRect((765+i),0,1,50);
+        }
+
+        for(var i = 0; i <= 255; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb('+i+',0,255)';
+          ctx.fillRect((1020+i),0,1,50);
+        }
+
+        for(var i = 0; i <= 255; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb(255,0,'+(255-i)+')';
+          ctx.fillRect((1275+i),0,1,50);
+        }
+
+        pickercolor.onclick = function(e) {
+          var x = e.offsetX;
+          var y = e.offsetY;
+          var colormapWidth = pickercolor.width;
+          var windowWidth = window.innerWidth;
+          var p = ctx.getImageData(x*(colormapWidth/windowWidth),y,1,1);
+          var c = p.data;
+          App.updateColor(c[0],c[1],c[2]);
+        };
+      </script>
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+  </html>
