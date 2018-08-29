@@ -14,21 +14,18 @@
  
 #include <BrainzyPinout.h> // cross-reference between the Brainzy pins and their code label
 
-float target = 0.;
+float target = 360.;
 volatile long cptencoder = 0L;
 
-float Kp = 1.;
+float Kp = 30.;
 float Ki = 0.;
 float Kd = 0.;
 
 float olderror = 0.;
 float sumerror = 0.;
 unsigned long oldtime = 0L;
-unsigned long oldtime_plot = 0L;
 
 void setup() {
-  USB.begin(115200);
-
   pinMode(MOT1_1, OUTPUT);
   pinMode(MOT1_2, OUTPUT);
 
@@ -43,10 +40,10 @@ void loop() {
     noInterrupts();
     float error = target - (float)cptencoder/11.;
     interrupts();
-    olderror = error;
-    sumerror += error
+    sumerror += error;
     oldtime = millis();
     float cmd = Kp*error + Ki*sumerror + Kd*(error - olderror);
+    olderror = error;
     cmd = constrain(cmd, -255., 255.);
     setMotorLeftSpeed((int)cmd);
   }

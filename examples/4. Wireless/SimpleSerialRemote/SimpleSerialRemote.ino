@@ -20,7 +20,7 @@ float distance = 0;
 float angle = 0;
 
 void setup() {
-  serial.begin(115200);        // start serial communication (115200 bauds)
+  serial.begin(9600);        // start serial communication (9600 bauds)
   Robby.setMode(DIFFERENTIAL); // initialize the Robot : DIFFERENTIAL or OMNIDIRECTIONAL
   Robby.slaved();              // slaved robot = position control
 }
