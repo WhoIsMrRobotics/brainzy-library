@@ -783,10 +783,14 @@ void BRAINZY::stop(void) {
 void BRAINZY::goTo(float X, float Y) {
 	//resetVariables(); not usefull because goTo() uses tanslate()
   if (_numberofmotors == 3) { //Only for omnidirectionnal mode
-  	float distance = sqrtf(powf(X,2.)+powf(Y,2.));
-  	float direction = Y < 0. ? -90. : 90.;
-  	if (X != 0.) direction = RAD2DEG(atanf(Y/X));
-  	if (X < 0.) distance *= -1.;
+    noInterrupts();
+    float XX = X-_coordinates[0];
+    float YY = Y-_coordinates[1];
+    interrupts();
+    float distance = sqrtf(powf(XX,2.)+powf(YY,2.));
+    float direction = YY < 0. ? -90. : 90.;
+    if (XX != 0.) direction = RAD2DEG(atanf(YY/XX));
+    if (XX < 0.) distance *= -1.;
     translate(distance, direction);
   }
 }
