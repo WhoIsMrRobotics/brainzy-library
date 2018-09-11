@@ -95,6 +95,7 @@ waitActionDone	KEYWORD2
 
 beginSD	KEYWORD2
 
+isConnected	KEYWORD2
 distanceRead	KEYWORD2
 #colorWrite	KEYWORD2
 

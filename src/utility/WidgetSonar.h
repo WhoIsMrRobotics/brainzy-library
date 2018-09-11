@@ -17,12 +17,19 @@ class WidgetSonar {
     	_address = port;
     }
 
+    bool isConnected() {
+      Widgets.beginTransmission(_address);
+      return Widgets.endTransmission(true) == 0;
+    }
+
     float distanceRead() {
-      float distance = 0.;
-    	Widgets.requestFrom(_address,4);
-      for (int i=0; i<4; i++) {
-        *((unsigned char*)&distance + i) = Widgets.read();
-      }
+      float distance = -1.;
+    	Widgets.requestFrom(_address,4,true);
+      if (Widgets.available() > 0) {
+        for (int i=0; i<4; i++) {
+          *((unsigned char*)&distance + i) = Widgets.read();
+        }
+      } 
   		return distance;
   	}
 

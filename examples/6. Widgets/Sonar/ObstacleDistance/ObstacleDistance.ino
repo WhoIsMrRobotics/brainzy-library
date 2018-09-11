@@ -21,6 +21,11 @@ void setup() {
   // put your setup code here, to run once:
   Widgets.begin();         // initialize widgets communication
   SerialUSB.begin(115200); // start USB communication (115200 bauds)
+
+  if (!mySonar.isConnected()) {
+    SerialUSB.println("Error: mySonar is not connected.");
+    while(1);
+  }
 }
 
 void loop() {

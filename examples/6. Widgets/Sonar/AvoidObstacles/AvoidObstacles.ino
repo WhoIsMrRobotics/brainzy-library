@@ -15,13 +15,18 @@
 #include <BRAINZY.h> // include the robot library
 #include <Widgets.h> // include the widgets library
 
-WidgetSonar mySonar(WIDGET_PORT_6); // create a Sonar widget connected to the first port
+WidgetSonar mySonar(WIDGET_PORT_1); // create a Sonar widget connected to the first port
 
 void setup() {
   // put your setup code here, to run once:
   Widgets.begin();                // initialize widgets communication
   Robby.setMode(OMNIDIRECTIONAL); // initialize the Robot : DIFFERENTIAL or OMNIDIRECTIONAL
   Robby.slaved();                 // slaved robot = position control
+
+  if (!mySonar.isConnected()) {
+    SerialUSB.println("Error: mySonar is not connected.");
+    while(1);
+  }
 }
 
 void loop() {
