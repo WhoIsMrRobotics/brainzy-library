@@ -26,8 +26,8 @@ class WidgetSonar {
       float distance = -1.;
     	Widgets.requestFrom(_address,4,true);
       if (Widgets.available() > 0) {
-        for (int i=0; i<4; i++) {
-          *((unsigned char*)&distance + i) = Widgets.read();
+        for (uint8_t i=0; i<4; i++) {
+          *((uint8_t*)&distance + i) = Widgets.read();
         }
       } 
   		return distance;

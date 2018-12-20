@@ -23,9 +23,10 @@ void setup() {
   Robby.setMode(OMNIDIRECTIONAL); // initialize the Robot : DIFFERENTIAL or OMNIDIRECTIONAL
   Robby.slaved();                 // slaved robot = position control
 
+  // check if mySonar is correctly connected
   if (!mySonar.isConnected()) {
     SerialUSB.println("Error: mySonar is not connected.");
-    while(1);
+    while(1); // infinite loop
   }
 }
 

@@ -22,16 +22,17 @@ void setup() {
   Widgets.begin();         // initialize widgets communication
   SerialUSB.begin(115200); // start USB communication (115200 bauds)
 
+  // check if mySonar is correctly connected
   if (!mySonar.isConnected()) {
     SerialUSB.println("Error: mySonar is not connected.");
-    while(1);
+    while(1); // infinite loop
   }
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   float distance = mySonar.distanceRead(); // read the distance to an obstacle
-  SerialUSB.print(distance);               //display it
+  SerialUSB.print(distance);               // display it
   SerialUSB.println(" cm");
   delay(500);
 }
