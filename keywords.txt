@@ -97,7 +97,10 @@ beginSD	KEYWORD2
 
 isConnected	KEYWORD2
 distanceRead	KEYWORD2
-#colorWrite	KEYWORD2
+colorWrite	KEYWORD2
+brightness	KEYWORD2
+size	KEYWORD2
+clear	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

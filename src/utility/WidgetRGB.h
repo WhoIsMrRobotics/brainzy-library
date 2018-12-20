@@ -17,52 +17,63 @@ class WidgetRGB {
     	_address = port;
     }
 
-    void colorWrite(byte red, byte green, byte blue, uint8_t id = 255) {
+    bool isConnected() {
+      Widgets.beginTransmission(_address);
+      return Widgets.endTransmission(true) == 0;
+    }
+
+    void colorWrite(uint8_t red, uint8_t green, uint8_t blue, uint8_t id = 255) {
     	Widgets.beginTransmission(_address);
-      Widgets.write(id);
       Widgets.write(red);
       Widgets.write(green);
       Widgets.write(blue);
+      Widgets.write(id);
       Widgets.endTransmission();
     }
 
-    void colorWrite(unsigned long color, uint8_t id = 255) {
-      byte red, green, blue;
+    /*void colorWrite(uint32_t color, uint8_t id = 255) {
+      uint8_t red, green, blue;
       hex2rgb(color, &red, &green, &blue);
       colorWrite(red, green, blue, id);
+    }*/
+
+    void brightness(byte bt) {
+      Widgets.beginTransmission(_address);
+      Widgets.write(bt);
+      Widgets.endTransmission();
     }
 
-    void brightness(uint8_t bt) {
-
+    int size(void) {
+      return _numPixels;
     }
 
-    int numLed(void) {
-      return _numled;
+    void clear(void) {
+      colorWrite(0, 0, 0, 255);
     }
 
   private:
     int _address = 0x00;
-    int _numled = 16;
-    byte _red = 0x00;
-    byte _green = 0x00;
-    byte _blue = 0x00;
+    int _numPixels = 16;
+    uint8_t _red = 0x00;
+    uint8_t _green = 0x00;
+    uint8_t _blue = 0x00;
 
-    unsigned long rgb2hex(byte red, byte green, byte blue) {
-      unsigned long rgb = 0x000000;
-      rgb |= (unsigned long)red << 16;
-      rgb |= (unsigned long)green << 8;
-      rgb |= (unsigned long)blue;
+    /*uint32_t rgb2hex(uint8_t red, uint8_t green, uint8_t blue) {
+      uint32_t rgb = 0x000000;
+      rgb |= (uint32_t)red << 16;
+      rgb |= (uint32_t)green << 8;
+      rgb |= (uint32_t)blue;
       return rgb;
     }
 
-    void hex2rgb(unsigned long hex, byte *red, byte *green, byte *blue) {
-      unsigned long R = 0xFF0000 & hex;
-      unsigned long G = 0x00FF00 & hex;
-      unsigned long B = 0x0000FF & hex;
-      *red = (byte)(R >> 16);
-      *green = (byte)(G >> 8);
-      *blue = (byte)B;
-    }
+    void hex2rgb(uint32_t hex, uint8_t *red, uint8_t *green, uint8_t *blue) {
+      uint32_t R = 0xFF0000 & hex;
+      uint32_t G = 0x00FF00 & hex;
+      uint32_t B = 0x0000FF & hex;
+      *red = (uint8_t)(R >> 16);
+      *green = (uint8_t)(G >> 8);
+      *blue = (uint8_t)B;
+    }*/
 };
 
 #endif //__WIDGET_RGB_H

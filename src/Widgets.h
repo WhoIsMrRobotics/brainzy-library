@@ -21,4 +21,4 @@
 //Widget libraries
 #include <Wire.h>
 #include "utility/WidgetSonar.h"
-//#include "utility/WidgetRGB.h"
+#include "utility/WidgetRGB.h"
