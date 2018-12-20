@@ -35,30 +35,41 @@ void setup() {
   
   delay(500);
   
-  int val = analogRead(analogPin);
-  if (val < 124) {
+  //Get raw values and remove noise using an exponential moving average
+  int smoothValue = 0;
+  for (int k=0; k < 500; k++) {
+    float newValue = (float)analogRead(analogPin);
+    float diff = abs(newValue - (float)smoothValue);
+    float snap = 1. / (diff * 0.001 + 1.);
+    snap = (1. - snap)*2.;
+    if(snap > 1.) snap = 1.;
+    smoothValue += (int)((newValue - (float)smoothValue) * snap);
+    delay(1);
+  }
+
+  if (smoothValue < 124) {
     address = 0x01; //0
     digitalWrite(led1pin, HIGH);
   }
-  else if (val > 124 && val < 343) {
+  else if (smoothValue > 124 && smoothValue < 343) {
     address = 0x02; //247.5
     digitalWrite(led2pin, HIGH);
   }
-  else if (val > 343 && val < 482) {
+  else if (smoothValue > 343 && smoothValue < 482) {
     address = 0x03; //441.1
     digitalWrite(led1pin, HIGH);
     digitalWrite(led2pin, HIGH);
   }
-  else if (val > 482 && val < 650) {
+  else if (smoothValue > 482 && smoothValue < 650) {
     address = 0x04; //524.4
     digitalWrite(led3pin, HIGH);
   }
-  else if (val > 650 && val < 899) {
+  else if (smoothValue > 650 && smoothValue < 899) {
     address = 0x05; //775.5
     digitalWrite(led1pin, HIGH);
     digitalWrite(led3pin, HIGH);
   }
-  else if (val > 899) {
+  else if (smoothValue > 899) {
     address = 0x06; //1023
     digitalWrite(led2pin, HIGH);
     digitalWrite(led3pin, HIGH);
