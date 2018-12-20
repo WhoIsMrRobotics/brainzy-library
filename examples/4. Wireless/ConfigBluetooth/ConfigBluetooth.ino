@@ -24,7 +24,7 @@ void setup() {
   SerialUSB.begin(115200);      // start USB communication (115200 bauds)
   SerialBluetooth.begin(38400); // start BT communication (38400 bauds)
   
-  SerialUSB.println("Communication is ready!");
+  SerialUSB.println("Communication with Bluetooth module is ready!");
 }
 
 void loop() {

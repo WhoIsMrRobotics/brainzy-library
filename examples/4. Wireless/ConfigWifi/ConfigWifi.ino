@@ -24,7 +24,7 @@ void setup() {
   SerialUSB.begin(115200);  // start USB communication (115200 bauds)
   SerialWifi.begin(115200); // start Wifi communication (115200 bauds)
   
-  SerialUSB.println("Communication is ready!");
+  SerialUSB.println("Communication with Wifi module is ready!");
 }
 
 void loop() {

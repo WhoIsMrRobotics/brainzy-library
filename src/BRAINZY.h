@@ -49,7 +49,7 @@
   Macros
 ------------------- */
 
-#define FIRMWARE_VERSION "1.0.0"
+#define FIRMWARE_VERSION "1.0.1"
 
 //Kinematic modes
 #define DIFFERENTIAL	2
